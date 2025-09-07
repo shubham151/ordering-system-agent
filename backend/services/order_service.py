@@ -1,14 +1,39 @@
 import logging
 from typing import Dict, Any
+from services.ai_service import AIService
 from models import OrderStore
-from schema import OrderResponse, OrderItems, ActionType
+from schema import OrderRequest, OrderResponse, OrderItems, ActionType
 
 logger = logging.getLogger(__name__)
 
 class OrderService:
-    def __init__(self, order_store: OrderStore):
+    def __init__(self, order_store: OrderStore, ai_service: AIService):
         self.order_store = order_store
+        self.ai_service = ai_service
     
+    def process_order_request(self, request: OrderRequest) -> OrderResponse:
+        try:
+            logger.info(f"Processing order request: {request.message}")
+            
+            parsed_intent = self.ai_service.parse_user_intent(request.message)
+            
+            if not parsed_intent.get("success", False):
+                logger.warning(f"Failed to parse intent: {parsed_intent}")
+                return self._create_error_response(
+                    "Could not understand your request. Please specify items to order or order number to cancel."
+                )
+            
+            # Execute the parsed action
+            result = self.execute_action(parsed_intent)
+            logger.info(f"Order processed successfully: {result.action}")
+            return result
+            
+        except Exception as e:
+            logger.error(f"Error processing order request: {str(e)}")
+            return self._create_error_response(
+                "An error occurred while processing your request. Please try again."
+            )
+        
     def execute_action(self, parsed_intent: Dict[str, Any]) -> OrderResponse:
         action = parsed_intent.get("action")
         data = parsed_intent.get("data", {})
@@ -84,6 +109,20 @@ class OrderService:
         except Exception as e:
             logger.error(f"Error canceling order {order_id}: {str(e)}")
             return self._create_error_response("Failed to cancel order")
+        
+    def get_current_orders(self) -> OrderResponse:
+        try:
+            return OrderResponse(
+                success=True,
+                action=ActionType.RETRIEVE,
+                orders=self.order_store.get_orders(),
+                totals=self.order_store.get_totals(),
+                message="Here are the current orders",
+            )
+        except Exception as e:
+            logger.error(f"Error retrieving orders: {str(e)}")
+            return self._create_error_response("Failed to fetch current orders")
+
     
     def _create_error_response(self, message: str) -> OrderResponse:
         return OrderResponse(

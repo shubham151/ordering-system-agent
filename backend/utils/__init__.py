@@ -9,7 +9,7 @@ from .response_utils import (
     internal_server_error_response
 )
 
-from .exceptions import (
+from .exception_utils import (
     handle_exceptions,
     OrderNotFoundError,
     InvalidOrderDataError,

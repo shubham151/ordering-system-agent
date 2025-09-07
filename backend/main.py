@@ -7,7 +7,7 @@ from schema import OrderRequest, OrderResponse
 from models import OrderStore
 from services.ai_service import AIService
 from services.order_service import OrderService
-
+from routers import orders
 # Log
 logging.basicConfig(level=logging.INFO)
 
@@ -31,6 +31,11 @@ order_store = OrderStore()
 ai_service = AIService()
 order_service = OrderService(order_store, ai_service)
 
+app.state.order_store = order_store
+app.state.ai_service = ai_service
+app.state.order_service = order_service
+app.include_router(orders.router, tags=["Orders"])
+
 # Endpoints
 @app.get("/")
 def health_check():
@@ -40,17 +45,7 @@ def health_check():
 def detailed_health_check():
     return {"status": "healthy", "service": "drive-thru-api", "version": "1.0.0"}
 
-@app.post("/process", response_model=OrderResponse)
-def process_order_request(request: OrderRequest) -> OrderResponse:
-    return order_service.process_order_request(request)
 
-@app.get("/orders")
-def get_current_orders():
-    return order_service.get_current_orders()
-
-@app.delete("/orders/{order_id}")
-def cancel_order_by_id(order_id: int):
-    return order_service.cancel_order_by_id(order_id)
 
 # Startup
 if __name__ == "__main__":
