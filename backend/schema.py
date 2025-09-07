@@ -10,6 +10,7 @@ class ItemType(str, Enum):
 class ActionType(str, Enum):
     PLACED = "placed"
     CANCELED = "canceled"
+    MODIFIED = "modified"
     ERROR = "error"
     NONE = "none"
 

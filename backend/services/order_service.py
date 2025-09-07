@@ -40,6 +40,8 @@ class OrderService:
         
         if action == "place_order":
             return self.place_order(data)
+        elif action == "modify_order":
+            return self.modify_order(data)
         elif action == "cancel_order":
             return self.cancel_order(data.get("order_id"))
         else:
@@ -78,6 +80,64 @@ class OrderService:
         except Exception as e:
             logger.error(f"Error placing order: {str(e)}")
             return self._create_error_response("Failed to place order")
+        
+    def modify_order(self, order_data: Dict[str, Any]) -> OrderResponse:
+        """Modify an existing order in place"""
+        try:
+            order_id = order_data.get("order_id")
+            if not order_id:
+                return self._create_error_response("Order ID is required for modifications")
+            
+            # Get current order
+            current_order = self.order_store.get_order(order_id)
+            if not current_order or current_order.status != "active":
+                return self._create_error_response(f"Order #{order_id} not found or not active")
+            
+            # Start with current quantities
+            new_items = current_order.items.copy()
+            
+            # Apply modifications
+            for item_type in ['burgers', 'fries', 'drinks']:
+                current_qty = new_items.get(item_type, 0)
+                
+                # Handle set operations (replace current amount)
+                set_key = f'set_{item_type}'
+                if order_data.get(set_key, -1) >= 0:
+                    new_items[item_type] = order_data[set_key]
+                    continue
+                
+                # Handle add operations
+                add_key = f'add_{item_type}'
+                if order_data.get(add_key, 0) > 0:
+                    new_items[item_type] = current_qty + order_data[add_key]
+                
+                # Handle remove operations
+                remove_key = f'remove_{item_type}'
+                remove_qty = order_data.get(remove_key, 0)
+                if remove_qty > 0:
+                    if remove_qty >= 999:  # Remove all
+                        new_items[item_type] = 0
+                    else:
+                        new_items[item_type] = max(0, current_qty - remove_qty)
+            
+            # Update the existing order directly
+            current_order.items = new_items
+            
+            logger.info(f"Order {order_id} modified: {new_items}")
+                
+            return OrderResponse(
+                success=True,
+                action=ActionType.PLACED,
+                order_id=order_id,  # Keep same ID
+                items=new_items,
+                message=f"Order #{order_id} has been updated",
+                totals=self.order_store.get_totals(),
+                orders=self.order_store.get_orders(),
+            )
+            
+        except Exception as e:
+            logger.error(f"Error modifying order: {str(e)}")
+            return self._create_error_response("Failed to modify order")
     
     def cancel_order(self, order_id: int) -> OrderResponse:
         try:

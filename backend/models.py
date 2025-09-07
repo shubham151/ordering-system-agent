@@ -29,6 +29,14 @@ class OrderStore:
             self._next_id += 1
             return order_id
     
+    def update_order(self, order_id: int, new_items: Dict[str, int]) -> bool:
+        with self._lock:
+            order_info = self._orders.get(order_id)
+            if order_info and order_info.status == "active":
+                order_info.items = new_items.copy()
+                return True
+            return False
+        
     def cancel_order(self, order_id: int) -> Optional[Dict[str, int]]:
         with self._lock:
             order_info = self._orders.get(order_id)
