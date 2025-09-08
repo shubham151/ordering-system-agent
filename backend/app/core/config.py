@@ -27,15 +27,7 @@ class Config:
     GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-2.0-flash-exp")
     
     # CORS settings
-    ALLOWED_ORIGINS: list = [
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ]
-    
-    # Custom origins from environment
-    CUSTOM_ORIGINS: str = os.getenv("ALLOWED_ORIGINS", "")
-    if CUSTOM_ORIGINS:
-        ALLOWED_ORIGINS.extend([origin.strip() for origin in CUSTOM_ORIGINS.split(",")])
+    ALLOWED_ORIGINS: list = ["*"]
     
     # Order limits and validation
     MAX_ITEM_QUANTITY: int = int(os.getenv("MAX_ITEM_QUANTITY", "50"))
