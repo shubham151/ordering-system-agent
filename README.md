@@ -86,7 +86,7 @@ A modern AI-powered drive-thru ordering system that processes natural language r
     ```
 5. **Run backend**
     ```bash
-    uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    uvicorn main:app --reload --host 0.0.0.0 --port 8000
     ```
 
 ### Frontend Setup
