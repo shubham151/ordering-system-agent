@@ -1,8 +1,8 @@
 import logging
 from typing import Dict, Any
-from services.ai_service import AIService
-from models import OrderStore
-from schema import OrderRequest, OrderResponse, OrderItems, ActionType
+from app.services.ai_service import AIService
+from app.models.db_models import OrderStore
+from app.schemas.schemas import OrderRequest, OrderResponse, OrderItems, ActionType
 
 logger = logging.getLogger(__name__)
 

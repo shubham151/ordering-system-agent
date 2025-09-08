@@ -1,7 +1,7 @@
 from fastapi import Request, Depends, HTTPException
-from services.order_service import OrderService
-from services.ai_service import AIService
-from models import OrderStore
+from app.services.order_service import OrderService
+from app.services.ai_service import AIService
+from app.models.db_models import OrderStore
 from typing import Annotated
 
 # ---------- Core Dependencies ----------

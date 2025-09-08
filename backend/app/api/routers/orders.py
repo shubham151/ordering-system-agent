@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
-from schema import OrderRequest, OrderResponse
-from dependencies import OrderServiceDep, OrderStoreDep
-from services.order_service import OrderService
-from models import OrderStore
-from utils.response_utils import success_response, error_response
-from utils.exception_utils import handle_exceptions
+from app.schemas.schemas import OrderRequest, OrderResponse
+from app.core.dependencies import OrderServiceDep, OrderStoreDep
+from app.services.order_service import OrderService
+from app.models.db_models import OrderStore
+from app.utils.response_utils import success_response, error_response
+from app.utils.exception_utils import handle_exceptions
 
 import logging
 

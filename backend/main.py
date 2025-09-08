@@ -2,12 +2,12 @@ import uvicorn
 import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from config import Config
-from schema import OrderRequest, OrderResponse
-from models import OrderStore
-from services.ai_service import AIService
-from services.order_service import OrderService
-from routers import orders
+from app.core.config import Config
+from app.schemas.schemas import OrderRequest, OrderResponse
+from app.models.db_models import OrderStore
+from app.services.ai_service import AIService
+from app.services.order_service import OrderService
+from app.api.routers.orders import router as orders_router
 # Log
 logging.basicConfig(level=logging.INFO)
 
@@ -34,7 +34,7 @@ order_service = OrderService(order_store, ai_service)
 app.state.order_store = order_store
 app.state.ai_service = ai_service
 app.state.order_service = order_service
-app.include_router(orders.router, tags=["Orders"])
+app.include_router(orders_router, tags=["Orders"])
 
 # Endpoints
 @app.get("/")

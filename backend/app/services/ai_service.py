@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, Any
-from config import Config
-from services.ai_providers import OpenAIProvider, GeminiProvider
+from app.core.config import Config
+from app.services.ai_providers import OpenAIProvider, GeminiProvider
 
 logger = logging.getLogger(__name__)
 

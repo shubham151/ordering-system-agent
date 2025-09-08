@@ -1,7 +1,7 @@
 import json
 import logging
 from typing import Dict, Any
-from config import Config
+from app.core.config import Config
 from .base import AIProvider, get_system_prompt, get_function_definitions
 
 logger = logging.getLogger(__name__)
