@@ -1,4 +1,3 @@
-// API Configuration - Environment agnostic
 const getApiBaseUrl = (): string => {
   if (typeof window !== "undefined") {
     return (window as any).__API_URL__ || "http://localhost:8000";
@@ -15,7 +14,6 @@ interface ApiError {
   message?: string;
 }
 
-// Pure API client functions
 const createApiClient = (baseUrl: string, timeout = 30000) => {
   const apiUrl = baseUrl.replace(/\/$/, "");
 
@@ -57,7 +55,6 @@ const createApiClient = (baseUrl: string, timeout = 30000) => {
         const errorData: ApiError = await response.json();
         errorMessage = errorData.detail || errorData.message || errorMessage;
       } catch {
-        // If error response is not JSON, use status text
       }
 
       throw new Error(errorMessage);

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Button from '../button/button.svelte';
-  import { cn } from '../../../utils1';
-  import type { MessageInputProps } from '../../../types';
+  import Button from '$lib/components/ui/button/button.svelte';
+  import { cn } from "$lib/utils/common";
+  import type { MessageInputProps } from '$lib/types';
   
   export let message: MessageInputProps['message'];
   export let isLoading: MessageInputProps['isLoading'];

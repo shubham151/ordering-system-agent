@@ -1,13 +1,13 @@
-export * from "./core/Api";
-export * from "./types";
+export * from "$lib/core/Api";
+export * from "$lib/types";
 
-export * from "./components";
+export * from "$lib/components";
 
-export * from "./stores/orderStore";
+export * from "$lib/stores/orderStore";
 
-export * from "./utils/order";
-export * from "./utils/validations";
+export * from "$lib/utils/order";
+export * from "$lib/utils/validations";
 
-export * from "./services/orderService";
+export * from "$lib/services/orderService";
 
-export * from "./logic/appLogic";
+export * from "$lib/logic/appLogic";

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { formatOrderItems } from '../../../utils/order';
-  import type { OrderCardProps } from '../../../types';
+  import { formatOrderItems } from '$lib/utils/order';
+  import type { OrderCardProps } from '$lib//types';
   
   export let id: OrderCardProps['id'];
   export let order: OrderCardProps['order'];

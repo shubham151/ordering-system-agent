@@ -1,7 +1,7 @@
 <script lang="ts">
-  import OrderCard from '../OrderCard/OrderCard.svelte';
-  import type { Order } from '../../../types';
-  import cartIcon from '../../../../assets/cart.png'
+  import OrderCard from '$lib/components/ui/orderCard/OrderCard.svelte';
+  import type { Order } from '$lib/types';
+  import cartIcon from '$lib/../assets/cart.png'
   
   export let orders: Record<string, Order>;
   export let onCancelOrder: ((id: string) => void) | undefined = undefined;

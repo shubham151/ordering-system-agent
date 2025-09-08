@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { StatusMessageProps } from '../../../types';
-  import successIcon from '../../../../assets/success.svg'
-  import failureIcon from '../../../../assets/failure.svg'
+  import type { StatusMessageProps } from '$lib/types';
+  import successIcon from '$lib/../assets/success.svg'
+  import failureIcon from '$lib/../assets/failure.svg'
   
   export let type: StatusMessageProps['type'];
   export let message: StatusMessageProps['message'];

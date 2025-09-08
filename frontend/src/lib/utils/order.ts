@@ -1,4 +1,4 @@
-import type { Order, OrderResponse, OrderTotals, ItemType } from "../types";
+import type { Order, OrderResponse, OrderTotals, ItemType } from "$lib/types";
 
 export const formatOrderItems = (order: Order): string => {
   const items = [];

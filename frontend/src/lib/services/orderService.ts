@@ -1,6 +1,6 @@
-import { processMessage, getOrders } from "../core/Api";
-import { validateMessage } from "../utils/validations";
-import { generateDefaultMessage } from "../utils/order";
+import { processMessage, getOrders } from "$lib/core/Api";
+import { validateMessage } from "$lib/utils/validations";
+import { generateDefaultMessage } from "$lib/utils/order";
 import type { OrderResponse, ValidationResult } from "../types";
 
 export const processOrderRequest = async (
@@ -10,7 +10,11 @@ export const processOrderRequest = async (
   if (!validation.isValid) {
     throw new Error(validation.error || "Invalid message");
   }
-  return await processMessage(message);
+  const result = await processMessage(message);
+  if (typeof result !== "object" || result === null) {
+    throw new Error("Invalid response from ordering system");
+  }
+  return result as OrderResponse;
 };
 
 export const loadInitialOrders = async () => {

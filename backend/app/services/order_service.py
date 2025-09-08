@@ -93,7 +93,6 @@ class OrderService:
             if not current_order or current_order.status != "active":
                 return self._create_error_response(f"Order #{order_id} not found or not active")
             
-            # Start with current quantities
             new_items = current_order.items.copy()
             
             # Apply modifications
@@ -115,12 +114,12 @@ class OrderService:
                 remove_key = f'remove_{item_type}'
                 remove_qty = order_data.get(remove_key, 0)
                 if remove_qty > 0:
-                    if remove_qty >= 999:  # Remove all
+                    if remove_qty >= 999:
                         new_items[item_type] = 0
                     else:
                         new_items[item_type] = max(0, current_qty - remove_qty)
             
-            # Update the existing order directly
+            # Update the existing order
             current_order.items = new_items
             
             logger.info(f"Order {order_id} modified: {new_items}")
@@ -128,7 +127,7 @@ class OrderService:
             return OrderResponse(
                 success=True,
                 action=ActionType.PLACED,
-                order_id=order_id,  # Keep same ID
+                order_id=order_id,
                 items=new_items,
                 message=f"Order #{order_id} has been updated",
                 totals=self.order_store.get_totals(),

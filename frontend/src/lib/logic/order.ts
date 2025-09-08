@@ -1,12 +1,12 @@
-import { orderActions } from "../stores/orderStore";
+import { orderActions } from "$lib/stores/orderStore";
 import {
   processOrderRequest,
   loadInitialOrders,
   createSuccessMessage,
   createErrorMessage,
-} from "../services/orderService";
+} from "$lib/services/orderService";
 
-export const appLogic = {
+export const orderEvents = {
   async initialize() {
     try {
       const { orders, totals } = (await loadInitialOrders()) as any;
@@ -53,7 +53,7 @@ export const appLogic = {
   },
 };
 
-export const messageLogic = {
+export const messageEvents = {
   validate: (message: string) => {
     const trimmed = message.trim();
     return {
@@ -64,7 +64,7 @@ export const messageLogic = {
   },
 
   getValidationMessage: (message: string) => {
-    const { isEmpty, isTooLong } = messageLogic.validate(message);
+    const { isEmpty, isTooLong } = messageEvents.validate(message);
 
     if (isEmpty) return "Please enter a message";
     if (isTooLong) return "Message is too long (max 500 characters)";
@@ -72,12 +72,12 @@ export const messageLogic = {
   },
 
   canSubmit: (message: string, isLoading: boolean) => {
-    const { isValid } = messageLogic.validate(message);
+    const { isValid } = messageEvents.validate(message);
     return isValid && !isLoading;
   },
 };
 
-export const uiLogic = {
+export const uiEvents = {
   handleKeyPress: (event: KeyboardEvent, onSubmit: () => void) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();

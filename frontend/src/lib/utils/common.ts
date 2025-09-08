@@ -1,16 +1,10 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-/**
- * Utility function to merge Tailwind CSS classes
- */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/**
- * Format order items for display
- */
 export function formatOrderItems(order: {
   burgers: number;
   fries: number;
@@ -29,23 +23,17 @@ export function formatOrderItems(order: {
   return items.join(", ") || "Empty order";
 }
 
-/**
- * Debounce function for input handling (browser-compatible)
- */
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
-  let timeout: number; // Use number instead of NodeJS.Timeout for browser compatibility
+  let timeout: number;
   return (...args: Parameters<T>) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), wait) as unknown as number;
   };
 }
 
-/**
- * Alternative debounce using ReturnType<typeof setTimeout>
- */
 export function debounceAlt<T extends (...args: any[]) => any>(
   func: T,
   wait: number
@@ -57,9 +45,6 @@ export function debounceAlt<T extends (...args: any[]) => any>(
   };
 }
 
-/**
- * Format relative time
- */
 export function formatRelativeTime(date: Date): string {
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
@@ -78,9 +63,6 @@ export function formatRelativeTime(date: Date): string {
   }
 }
 
-/**
- * Validate message input
- */
 export function validateMessage(message: string): {
   isValid: boolean;
   error?: string;
@@ -101,16 +83,11 @@ export function validateMessage(message: string): {
   return { isValid: true };
 }
 
-/**
- * Sleep utility for async operations
- */
 export function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-/**
- * Generate order examples for placeholder
- */
+
 export function getOrderExamples(): string[] {
   return [
     "I want 2 burgers and 3 fries",
@@ -122,17 +99,11 @@ export function getOrderExamples(): string[] {
   ];
 }
 
-/**
- * Get random order example
- */
 export function getRandomOrderExample(): string {
   const examples = getOrderExamples();
   return examples[Math.floor(Math.random() * examples.length)];
 }
 
-/**
- * Format currency (for future use)
- */
 export function formatCurrency(amount: number, currency = "USD"): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -140,24 +111,15 @@ export function formatCurrency(amount: number, currency = "USD"): string {
   }).format(amount);
 }
 
-/**
- * Truncate text with ellipsis
- */
 export function truncateText(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
   return text.substring(0, maxLength) + "...";
 }
 
-/**
- * Check if running in browser
- */
 export function isBrowser(): boolean {
   return typeof window !== "undefined";
 }
 
-/**
- * Safe JSON parse with fallback
- */
 export function safeJsonParse<T>(json: string, fallback: T): T {
   try {
     return JSON.parse(json);
@@ -166,16 +128,10 @@ export function safeJsonParse<T>(json: string, fallback: T): T {
   }
 }
 
-/**
- * Generate unique ID
- */
 export function generateId(): string {
   return Math.random().toString(36).substring(2) + Date.now().toString(36);
 }
 
-/**
- * Throttle function (alternative to debounce)
- */
 export function throttle<T extends (...args: any[]) => any>(
   func: T,
   limit: number

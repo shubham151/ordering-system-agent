@@ -53,7 +53,6 @@ class GeminiProvider(AIProvider):
             return {"success": False, "error": f"API error: {str(e)}"}
     
     def _convert_functions_to_tools(self, openai_functions: list) -> list:
-        """Convert OpenAI function format to Gemini tools format"""
         import google.generativeai as genai
         
         tools = []

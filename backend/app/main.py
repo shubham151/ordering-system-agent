@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO)
 
 app = FastAPI(
     title="Drive Thru Ordering System",
-    description="AI-powered drive-thru ordering system",
+    description="AI - powered drive-thru ordering system",
     version="1.0.0"
 )
 
@@ -44,8 +44,6 @@ def health_check():
 @app.get("/health")
 def detailed_health_check():
     return {"status": "healthy", "service": "drive-thru-api", "version": "1.0.0"}
-
-
 
 # Startup
 if __name__ == "__main__":

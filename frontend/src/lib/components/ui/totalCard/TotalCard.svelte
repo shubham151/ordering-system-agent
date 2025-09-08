@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TotalCardProps } from '../../../types';
+  import type { TotalCardProps } from '$lib/types';
   
   export let title: TotalCardProps['title'];
   export let value: TotalCardProps['value'];

@@ -32,7 +32,6 @@ async def get_order(order_id: int, order_service: OrderServiceDep):
 async def cancel_order(order_id: int, order_service: OrderServiceDep):
     return await order_service.cancel_order_by_id(order_id)
 
-# ---------- Statistics ----------
 @router.get("/orders/stats")
 @handle_exceptions
 async def get_stats(order_service: OrderServiceDep):

@@ -1,4 +1,4 @@
-import type { ValidationResult } from "../types";
+import type { ValidationResult } from "$lib/types";
 
 export const validateMessage = (message: string): ValidationResult => {
   const trimmed = message.trim();

@@ -1,5 +1,5 @@
 import { writable, derived } from "svelte/store";
-import type { AppState, OrderTotals, Order } from "../types";
+import type { AppState, OrderTotals, Order } from "$lib/types";
 
 const initialState: AppState = {
   totals: { burgers: 0, fries: 0, drinks: 0 },
