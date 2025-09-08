@@ -1,7 +1,7 @@
 import { processMessage, getOrders } from "$lib/core/Api";
 import { validateMessage } from "$lib/utils/validations";
 import { generateDefaultMessage } from "$lib/utils/order";
-import type { OrderResponse, ValidationResult } from "../types";
+import type { OrderResponse, ValidationResult } from "$lib/types";
 
 export const processOrderRequest = async (
   message: string
