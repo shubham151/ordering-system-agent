@@ -69,3 +69,9 @@ export interface ValidationResult {
   isValid: boolean;
   error?: string;
 }
+
+
+export interface ApiError {
+  detail?: string;
+  message?: string;
+}

@@ -1,18 +1,7 @@
-const getApiBaseUrl = (): string => {
-  if (typeof window !== "undefined") {
-    return (window as any).__API_URL__ || "http://localhost:8000";
-  }
-  return "http://localhost:8000";
-};
+import type {ApiError } from "$lib/types";
+import { env } from '$env/dynamic/public'
 
-const API_BASE_URL = getApiBaseUrl();
-
-export type { OrderTotals, Order, OrderResponse, OrderRequest } from "../types";
-
-interface ApiError {
-  detail?: string;
-  message?: string;
-}
+const API_BASE_URL = env.PUBLIC_API_URL
 
 const createApiClient = (baseUrl: string, timeout = 30000) => {
   const apiUrl = baseUrl.replace(/\/$/, "");
@@ -113,10 +102,8 @@ const createApiClient = (baseUrl: string, timeout = 30000) => {
   };
 };
 
-// Create API client instance
 const apiClient = createApiClient(API_BASE_URL);
 
-// Exported functions (functional approach)
 export const processMessage = (message: string) =>
   apiClient.processMessage(message);
 
@@ -128,7 +115,6 @@ export const healthCheck = () => apiClient.healthCheck();
 
 export const testConnection = () => apiClient.testConnection();
 
-// Utility functions
 export const isApiError = (error: unknown): error is Error =>
   error instanceof Error;
 
@@ -139,11 +125,9 @@ export const getApiErrorMessage = (error: unknown): string => {
   return "An unexpected error occurred";
 };
 
-// API client factory for testing or different environments
 export const createCustomApiClient = (
   baseUrl: string,
   options?: { timeout?: number }
 ) => createApiClient(baseUrl, options?.timeout);
 
-// Export singleton for advanced usage
 export const DriveThruApi = apiClient;
